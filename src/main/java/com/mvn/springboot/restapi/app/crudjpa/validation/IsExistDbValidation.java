@@ -7,6 +7,7 @@ import com.mvn.springboot.restapi.app.crudjpa.Services.ProductService;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+
 @Component
 public class IsExistDbValidation implements ConstraintValidator<IsExistDb, String> {
     @Autowired
@@ -14,8 +15,12 @@ public class IsExistDbValidation implements ConstraintValidator<IsExistDb, Strin
 
     @Override
     public boolean isValid(String arg0, ConstraintValidatorContext arg1) {
-        return arg0 != null && !productService.existSku(arg0);
-    }
-       
+        if (productService == null) {
+            return true;
+
+        }
+
+        return !productService.existSku(arg0);
     }
 
+}
